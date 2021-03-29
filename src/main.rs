@@ -216,7 +216,15 @@ async fn handle_request(
     #[cfg(feature = "expose-metrics")]
     let start = Instant::now();
 
-    let resp = client.raw(raw_request).await.context(RequestIssue)?;
+    let mut resp = client.raw(raw_request).await.context(RequestIssue)?;
+
+    let resp_headers = resp.headers_mut();
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-global"));
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-bucket"));
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-limit"));
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-remaining"));
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-reset"));
+    resp_headers.remove(HeaderName::from_static("x-ratelimit-reset-after"));
 
     #[cfg(feature = "expose-metrics")]
     let end = Instant::now();
