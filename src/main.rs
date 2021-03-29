@@ -1,6 +1,7 @@
 mod error;
 
 use error::{ChunkingRequest, InvalidPath, RequestError, RequestIssue};
+use http::header::HeaderName;
 use http::request::Parts;
 use hyper::{
     body::Body,
@@ -177,9 +178,11 @@ async fn handle_request(
     let Parts {
         method,
         uri,
-        headers,
+        mut headers,
         ..
     } = parts;
+
+    headers.remove(HeaderName::from_static("connection"));
 
     let trimmed_path = if uri.path().starts_with(&api_url) {
         uri.path().replace(&api_url, "")
