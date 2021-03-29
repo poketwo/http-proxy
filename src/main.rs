@@ -21,7 +21,7 @@ use tracing_log::LogTracer;
 use tracing_subscriber::prelude::*;
 use tracing_subscriber::{fmt, EnvFilter};
 use twilight_http::{
-    client::Client, request::Request as TwilightRequest, routing::Path, API_VERSION,
+    client::Client, request::Request as TwilightRequest, routing::Path,
 };
 
 #[cfg(feature = "expose-metrics")]
@@ -171,7 +171,7 @@ async fn handle_request(
     client: Client,
     request: Request<Body>,
 ) -> Result<Response<Body>, RequestError> {
-    let api_url: String = format!("/api/v{}/", API_VERSION);
+    let api_url = "/api/v7/";
     debug!("Incoming request: {:?}", request);
 
     let (parts, body) = request.into_parts();
