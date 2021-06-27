@@ -165,7 +165,7 @@ async fn handle_request(
     client: Client,
     request: Request<Body>,
 ) -> Result<Response<Body>, RequestError> {
-    let api_url = "/api/v7/";
+    let api_url = "/api/v9/";
     debug!("Incoming request: {:?}", request);
 
     let (parts, body) = request.into_parts();
